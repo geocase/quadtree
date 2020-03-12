@@ -26,7 +26,7 @@ int main() {
 	cFPS primFPS;
 	primFPS.StartFPSCounter();
 
-	cQuadTree *t = new cQuadTree(320, 320, 320);
+	cQuadTree *t = new cQuadTree(320, 320, 320, 10);
 	std::cout << "OUT" << std::endl;
 	t->BuildLeafs();
 	cQuadTree *temp;

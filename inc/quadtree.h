@@ -10,10 +10,11 @@ public:
 	cQuadTree *leafs[4];
 	
 	double halfWidth;
+	double minimumHalfWidth;
 	cVertex center;
 	cPolygon quad;
 
-	cQuadTree(double x, double y, double hw);
+	cQuadTree(double x, double y, double hw, double min);
 	void BuildLeafs();
 	cQuadTree *FindCollidingQuad(double x, double y);
 };
