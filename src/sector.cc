@@ -18,7 +18,8 @@ void cVertex::PlaceAt(const double nx, const double ny) {
 }
 
 bool cVertex::InPolygon(cPolygon *p) {
-	// Get quad of shape
+	if(!this->InPolygonQuad(p)) {return false;}
+	
 	double yMin = p->faces.at(0).a->position.y, yMax = p->faces.at(0).a->position.y;
 	double xMin = p->faces.at(0).a->position.x, xMax = p->faces.at(0).a->position.x;
 	for(uint32_t i = 0; i < p->faceCount; i++) {
@@ -28,10 +29,6 @@ bool cVertex::InPolygon(cPolygon *p) {
 		if(p->faces.at(i).a->position.y > yMax) { yMax = p->faces.at(i).a->position.y;}
 	}
 
-	// If point isn't even in the quad then throw it out
-	if(this->position.x < xMin || this->position.x > xMax || this->position.y < yMin || this->position.y > yMax) {
-		return false;
-	}
 
 	// Otherwise move to "raycast" collision detection
 	/* Basically:
@@ -68,6 +65,23 @@ bool cVertex::InPolygon(cPolygon *p) {
 	 */
 	
 	return !(colliderCount % 2 == 0);
+}
+
+bool cVertex::InPolygonQuad(cPolygon *p) {
+	// Get quad of shape
+	double yMin = p->faces.at(0).a->position.y, yMax = p->faces.at(0).a->position.y;
+	double xMin = p->faces.at(0).a->position.x, xMax = p->faces.at(0).a->position.x;
+	for(uint32_t i = 0; i < p->faceCount; i++) {
+		if(p->faces.at(i).a->position.x < xMin) { xMin = p->faces.at(i).a->position.x;}
+		if(p->faces.at(i).a->position.x > xMax) { xMax = p->faces.at(i).a->position.x;}
+		if(p->faces.at(i).a->position.y < yMin) { yMin = p->faces.at(i).a->position.y;}
+		if(p->faces.at(i).a->position.y > yMax) { yMax = p->faces.at(i).a->position.y;}
+	}
+
+	if(this->position.x < xMin || this->position.x > xMax || this->position.y < yMin || this->position.y > yMax) {
+		return false;
+	}
+	return true;
 }
 
 cSegment::cSegment(double ax, double ay, double bx, double by) {

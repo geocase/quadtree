@@ -15,7 +15,8 @@ public:
 	Misc::Vector2_t position;
 	void Rotate(const double ax, const double ay, const double r);
 	void PlaceAt(const double nx, const double ny);
-	bool InPolygon(cPolygon *p);	
+	bool InPolygon(cPolygon *p);
+	bool InPolygonQuad(cPolygon *p);
 };
 
 class cSegment {
