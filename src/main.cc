@@ -29,15 +29,15 @@ int main() {
 	cQuadTree *t = new cQuadTree(320, 320, 200);
 	std::cout << "OUT" << std::endl;
 	t->BuildLeafs();
-	t->leafs[0]->BuildLeafs();
-	t->leafs[0]->leafs[0]->BuildLeafs();
+	t->leafs[1]->BuildLeafs();
+	t->leafs[1]->leafs[0]->BuildLeafs(); 
+	cQuadTree *temp;
+
 	while(!primIn.windowExit) {
 		primFPS.StartFrame();
-		primWin.DrawPolygon(&(t->quad), col);
-		for(int i = 0; i < t->NODECOUNT; i++) {
-			primWin.DrawPolygon(&(t->leafs[i]->quad), col);
-			primWin.DrawPolygon(&(t->leafs[0]->leafs[i]->quad), col);
-			primWin.DrawPolygon(&(t->leafs[0]->leafs[0]->leafs[i]->quad), col);
+		temp = t->FindCollidingQuad(primIn.mouseX, primIn.mouseY);
+		if(temp != NULL) {
+			primWin.DrawPolygon(&(temp->quad), col);
 		}
 		primWin.Update();
 		primFPS.EndFrame();

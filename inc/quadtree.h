@@ -7,7 +7,7 @@ class cQuadTree;
 class cQuadTree {
 public:
 	const uint8_t NODECOUNT = 4;
-	cQuadTree **leafs;
+	cQuadTree *leafs[4];
 	
 	double halfWidth;
 	cVertex center;
@@ -15,5 +15,6 @@ public:
 
 	cQuadTree(double x, double y, double hw);
 	void BuildLeafs();
+	cQuadTree *FindCollidingQuad(double x, double y);
 };
 #endif

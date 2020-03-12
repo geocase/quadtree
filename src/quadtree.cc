@@ -13,10 +13,12 @@ cQuadTree::cQuadTree(double x, double y, double hw) {
 	this->center.position.x = x;
 	this->center.position.y = y;
 	this->quad.BuildFromVertexArray(n, 4);
+	for(int i = 0; i < 4; i++) {
+		this->leafs[i] = NULL;
+	}
 }
 
 void cQuadTree::BuildLeafs() {
-	this->leafs = (cQuadTree**)malloc(sizeof(cQuadTree**) * 4);
 	this->leafs[0] = new cQuadTree(this->center.position.x - this->halfWidth / 2,
 	                               this->center.position.y - this->halfWidth / 2,
 	                               this->halfWidth / 2);
@@ -29,5 +31,23 @@ void cQuadTree::BuildLeafs() {
 	this->leafs[3] = new cQuadTree(this->center.position.x - this->halfWidth / 2,
 	                               this->center.position.y + this->halfWidth / 2,
 	                               this->halfWidth / 2);
+}
 
+cQuadTree *cQuadTree::FindCollidingQuad(double x, double y) {
+	cVertex *t = new cVertex;
+	t->PlaceAt(x, y);
+	bool check[4];
+	if(t->InPolygonQuad(&(this->quad))) {
+		for(int i = 0; i < 4; i++) {
+			if(this->leafs[i] != NULL) {
+				if(t->InPolygonQuad(&(this->leafs[i]->quad))) {
+					return this->leafs[i]->FindCollidingQuad(x, y); 
+				}
+			}
+		}
+	} else {
+		return NULL;
+	}
+	
+	return this;
 }
