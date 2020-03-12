@@ -26,22 +26,21 @@ int main() {
 	cFPS primFPS;
 	primFPS.StartFPSCounter();
 
-	cQuadTree *t = new cQuadTree(320, 320, 200);
+	cQuadTree *t = new cQuadTree(320, 320, 320);
 	std::cout << "OUT" << std::endl;
 	t->BuildLeafs();
-	t->leafs[1]->BuildLeafs();
-	t->leafs[1]->leafs[0]->BuildLeafs(); 
 	cQuadTree *temp;
 
 	while(!primIn.windowExit) {
 		primFPS.StartFrame();
-		temp = t->FindCollidingQuad(primIn.mouseX, primIn.mouseY);
-		if(temp != NULL) {
-			primWin.DrawPolygon(&(temp->quad), col);
-		}
+		primWin.DrawQuadTree(t, col);
 		primWin.Update();
 		primFPS.EndFrame();
 		
+		temp = t->FindCollidingQuad(primIn.mouseX, primIn.mouseY);
+		if(temp != NULL) {
+			temp->BuildLeafs();
+		}
 		primIn.Update();
 		std::cout << "Frametime: " << primFPS.GetFrameTime() << std::endl;
 	}

@@ -43,6 +43,15 @@ void cWindow::DrawPolygon(cPolygon *p, sColor_t col) {
 	}
 }
 
+void cWindow::DrawQuadTree(cQuadTree *t, sColor_t col) {
+	for(int i = 0; i < 4; i++) {
+		if(t->leafs[i] != NULL) {
+			this->DrawQuadTree(t->leafs[i], col);					
+		}
+	}
+	this->DrawPolygon(&(t->quad), col);
+}
+
 void cWindow::Update() {
 	SDL_RenderPresent(this->sdlren);
 	SDL_SetRenderDrawColor(this->sdlren, 0, 0, 0, 255);

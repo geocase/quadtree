@@ -4,6 +4,7 @@
 #include <SDL2/SDL.h>
 
 #include "sector.h"
+#include "quadtree.h"
 
 typedef struct {
 	uint8_t r, g, b, a;
@@ -26,6 +27,7 @@ public:
 	void DrawLine(double ax, double ay, double bx, double by, 
 	              sColor_t c);
 	void DrawPolygon(cPolygon *p, sColor_t col);
+	void DrawQuadTree(cQuadTree *t, sColor_t col);
 	void DrawPixel(int x, int y, sColor_t c);
 	void Update();
 };
