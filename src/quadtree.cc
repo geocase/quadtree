@@ -36,7 +36,6 @@ void cQuadTree::BuildLeafs() {
 cQuadTree *cQuadTree::FindCollidingQuad(double x, double y) {
 	cVertex *t = new cVertex;
 	t->PlaceAt(x, y);
-	bool check[4];
 	if(t->InPolygonQuad(&(this->quad))) {
 		for(int i = 0; i < 4; i++) {
 			if(this->leafs[i] != NULL) {
